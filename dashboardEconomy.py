@@ -10,7 +10,7 @@ st.set_page_config(page_title="Dashboard Economy | StrealmClix",
                    page_icon=":bar_chart:",
                    layout="wide") # logo che non abbiamo
 
-
+thfgfgrffge
 # per vedere la tabella nella schermata
 st.dataframe(table)
 
