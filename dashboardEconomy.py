@@ -1,17 +1,24 @@
-import pandas as pd # installare pip pandas (lettura CSV)
-import streamlit as st # installare pip streamlit (visual 3D)
+import plotly.express as px
+import pandas as pd
+import plotly
 
-# importazione dati da file csv in variabile tabella
-# 'CSV/' perchè il file sta in una cartella
-table = pd.read_csv('CSV/videogame.csv')
+df = pd.read_excel('Book.xlsx')
 
-# Creazione Pagina Dashboard
-st.set_page_config(page_title="Dashboard Economy | StrealmClix",
-                   page_icon=":bar_chart:",
-                   layout="wide") # logo che non abbiamo
+values = df['Result']
+names = df['Platform']
 
-# per vedere la tabella nella schermata
-st.dataframe(table)
+fig = px.pie(df, 
+            values=values,
+            names = names,
+            title = "ciccio brllo")
 
+fig.update_traces(
+    textposition = 'inside',
+    textinfo='percent+label'
+)
 
-# PER APRIRE SCHEDA WEB SCRIVERE COMANDO TERMINALE: streamlit run dashboardEconomy.py
+# fig.update_layout(
+#     title_font_size = 10
+# )
+
+plotly.offline.plot(fig,filename='Piechart.html')
