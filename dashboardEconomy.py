@@ -1,18 +1,48 @@
 import pandas as pd # pip install pandas
 
+# def checkPlatform():
+#     global collumPlatform
+
+#     list = [] # save platform
+#     for x in collumPlatform:
+#         if x not in list: # check if the variable isn't in list
+#             list.append(x) # save variable in list
+
+#     print(list)
+
+def create0Value(platform):
+    count = len(platform[0])
+    platform[1] = [None] * count
+    
+    for x in range(count):
+        platform[1][x] = 0
+    
+    return platform
+
+def countPlatform(platform):
+    global collumPlatform
+
+    for row in range(len(platform[0])):
+        for element in collumPlatform:
+            if element == platform[0][row]:
+                platform[1][row] += 1
+
+    return platform
+            
+            
 file = pd.read_csv("videogame.csv") # save date in file
 
-# # Graph bar platform
-collumPlatform = file['Platform'] # list date collum 'Platform'
-wii, ps4, ds = 0, 0, 0
+# GRAPH BAR WITH PLATFORM
+collumPlatform = file['Platform'] # list with date collum 'Platform'
 
-for x in collumPlatform:
-    if x == 'Wii':
-        wii += 1
-    elif x == 'PS4':
-        ps4 += 1
+# checkPlatform()
+platform = [['PC', 'PS4', 'PS3', 'PS2', 'PSP', 'X360', 'XOne', 'DS', '3DS', 'Wii', 'WiiU'],
+            []]
+create0Value(platform)
+countPlatform(platform)
 
-print(wii, ps4)
+print(platform  )
+
 
 # import plotly.express as px
 # import pandas as pd
@@ -40,3 +70,7 @@ print(wii, ps4)
 # )
 
 # plotly.offline.plot(fig,filename='Piechart.html')
+
+
+
+
