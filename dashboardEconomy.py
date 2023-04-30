@@ -1,4 +1,6 @@
 import pandas as pd # pip install pandas
+import streamlit as st
+import matplotlib.pyplot as plt
 
 # def checkPlatform():
 #     global collumPlatform
@@ -44,32 +46,17 @@ countPlatform(platform)
 print(platform  )
 
 
-# import plotly.express as px
-# import pandas as pd
-# import plotly
+# Pie chart, where the slices will be ordered and plotted counter-clockwise:
+labels = 'Frogs', 'Hogs', 'Dogs', 'Logs'
+sizes = [15, 30, 45, 10]
 
-# df = pd.read_excel('Book.xlsx')
-# ages = df["Platform"]
-# print(ages)
+fig1, ax1 = plt.subplots()
+ax1.pie(platform[1], labels=platform[0], autopct='%1.1f%%',
+        shadow=True, startangle=90)
+ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
-# values = df['Result']
-# names = df['Platform']
+st.pyplot(fig1)
 
-# fig = px.pie(df, 
-#             values=values,
-#             names = names,
-#             title = "ciccio brllo")
-   
-# fig.update_traces(
-#     textposition = 'inside',
-#     textinfo='percent+label'
-# )
-
-# fig.update_layout(
-#     title_font_size = 10
-# )
-
-# plotly.offline.plot(fig,filename='Piechart.html')
 
 
 
