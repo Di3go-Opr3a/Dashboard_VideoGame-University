@@ -2,15 +2,22 @@ import pandas as pd # pip install pandas
 import streamlit as st # pip install streamlit
 import matplotlib.pyplot as plt # pip install matplotlib
 
-# def checkPlatform():
-#     global collumPlatform
 
-#     list = [] # salvataggio piattaforme
-#     for x in collumPlatform:
-#         if x not in list: # controllo se la piattaforma non esiste
-#             list.append(x) # salvo la piattaforma in list
+def checkPlatform(colonna):
+    def myFunc(x):
+        if x == "N/A":
+            return True
+        else:
+            return False  
+    
+    lista = [] # salvataggio piattaforme
+    for x in colonna:
+        if x not in lista: # controllo se la piattaforma non esiste
+            lista.append(x) # salvo la piattaforma in list
+    lista = list(filter(myFunc, lista))
 
-#     print(list)
+    print(lista)
+
 
 # creo celle quante sono gli elementi riga 0, nella riga 1 di platform 
 # assegno 0
@@ -55,7 +62,7 @@ file = pd.read_csv("videogame.csv") # salvo dati in 'file'
 st.dataframe(file)
 
 # GRAPH BAR CON 'PIATTAFORME'
-collumPlatform = file['Platform'] # lista dati con colona 'Platform'
+collumPlatform = file['Platform'] # lista dati con colonna 'Platform'
 
 # checkPlatform()
 platform = [['PC', 'PS4', 'PS3', 'PS2', 'PSP', 'X360', 'XOne', 'DS', 'WiiU', 'Wii', '3DS'],
@@ -65,5 +72,11 @@ countPlatform(platform)
 # print(platform)
 
 piechart(platform)
+
+#GRAFICO A LINEE
+colonna_anni = file['Year']
+checkPlatform(colonna_anni)
+
+# st.line_chart(chart_data) 
 
 
