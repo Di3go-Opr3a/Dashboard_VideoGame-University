@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt # pip install matplotlib
 
 def checkPlatform(colonna):
     def myFunc(x):
-        if x == "N/A":
+        if x > 0:
             return True
         else:
             return False  
@@ -13,10 +13,14 @@ def checkPlatform(colonna):
     lista = [] # salvataggio piattaforme
     for x in colonna:
         if x not in lista: # controllo se la piattaforma non esiste
-            lista.append(x) # salvo la piattaforma in list
+            lista.append(x) # salvo la piattaforma in lista
+
     lista = list(filter(myFunc, lista))
 
-    print(lista)
+    lista = [int(x) for x in lista]
+
+    return lista
+
 
 
 # creo celle quante sono gli elementi riga 0, nella riga 1 di platform 
@@ -75,8 +79,9 @@ piechart(platform)
 
 #GRAFICO A LINEE
 colonna_anni = file['Year']
-checkPlatform(colonna_anni)
+colonna_anni = checkPlatform(colonna_anni)
 
-# st.line_chart(chart_data) 
+st.line_chart(colonna_anni) 
+
 
 
