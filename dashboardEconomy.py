@@ -1,6 +1,7 @@
 import pandas as pd # pip install pandas
 import streamlit as st # pip install streamlit
 import matplotlib.pyplot as plt # pip install matplotlib
+import numpy as np
 
 def estrai_colonna(key):
     file[key] = file[key].astype(str)
@@ -99,5 +100,11 @@ for x in (anno_profitto[0]):
             posizione_default = colonna_file.index(y)
             anno_profitto[1][posizione] += float(colonna_file2[posizione_default])
 
-# st.line_chart(chart_data) 
+df = pd.DataFrame({
+  'date': anno_profitto[0],
+  'second column': anno_profitto[1]
+})
 
+df = df.rename(columns={'date':'index'}).set_index('index')
+
+st.line_chart(df)
