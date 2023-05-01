@@ -3,9 +3,10 @@ import streamlit as st # pip install streamlit
 import matplotlib.pyplot as plt # pip install matplotlib
 
 def estrai_colonna(key):
+    file[key] = file[key].astype(str)
     colonna = file[key].values # estraggo collona con titolo 'Platform' senza indice
     colonna = colonna.tolist() # conversione numpy -> list
-    
+
     return colonna
 
 
@@ -20,7 +21,6 @@ def rimuovi_clone(lista_default):
     lista = []
     
     for valore in lista_default:
-        valore = str(valore)
         if valore not in lista: 
             lista.append(valore)
 
@@ -85,14 +85,19 @@ piechart(piattaforme)
 
 ### GRAFICO A LINEE con Anni e Profitto
 colonna_file = estrai_colonna('Year')
+colonna_file2 = estrai_colonna('Global_Sales')
 
 anno_profitto = [[],[]]
 anno_profitto[0] = rimuovi_clone(colonna_file)
 creazione_cella(anno_profitto)
 assegnazione_cella0(anno_profitto)
 
+for x in (anno_profitto[0]):
+    for y in colonna_file:
+        if x == y:
+            posizione = anno_profitto[0].index(x)
+            posizione_default = colonna_file.index(y)
+            anno_profitto[1][posizione] += float(colonna_file2[posizione_default])
 
-
-
-
+# st.line_chart(chart_data) 
 
