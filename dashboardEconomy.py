@@ -2,86 +2,97 @@ import pandas as pd # pip install pandas
 import streamlit as st # pip install streamlit
 import matplotlib.pyplot as plt # pip install matplotlib
 
+def estrai_colonna(key):
+    colonna = file[key].values # estraggo collona con titolo 'Platform' senza indice
+    colonna = colonna.tolist() # conversione numpy -> list
+    
+    return colonna
 
-def checkPlatform(colonna):
-    def myFunc(x):
-        if x > 0:
+
+def rimuovi_clone(lista_default):
+    # salva solo elementi con valore
+    def esistenza(valore):
+        if valore != 'nan':
             return True
         else:
             return False  
     
-    lista = [] # salvataggio piattaforme
-    for x in colonna:
-        if x not in lista: # controllo se la piattaforma non esiste
-            lista.append(x) # salvo la piattaforma in lista
+    lista = []
+    
+    for valore in lista_default:
+        valore = str(valore)
+        if valore not in lista: 
+            lista.append(valore)
 
-    lista = list(filter(myFunc, lista))
-
-    lista = [int(x) for x in lista]
-
+    lista = list(filter(esistenza, lista))
     return lista
 
 
+ # creo celle con valore nullo quante sono nella riga 0
+def creazione_cella(matrice):
+    count = len(matrice[0])
+    matrice[1] = [None] * count
 
-# creo celle quante sono gli elementi riga 0, nella riga 1 di platform 
-# assegno 0
-def create0Value(platform):
-    count = len(platform[0])
-    platform[1] = [None] * count
-    
-    for x in range(count):
-        platform[1][x] = 0
-    
-    return platform
 
-# conto quanti sono i valori nel DataFrame per ogni elemento riga 0
-def countPlatform(platform):
-    global collumPlatform
-    
-    for row in range(len(platform[0])):
-        for element in collumPlatform:
-            if element == platform[0][row]:
-                platform[1][row] += 1
+ # assegno valore zero alle celle nulle
+def assegnazione_cella0(matrice):
+    count = len(matrice[0])
 
-    return platform
+    for valore in range(count):
+        matrice[1][valore] = 0
 
-def piechart(platform):
-    # Distanza tra elementi
+
+def piechart(matrice):
     fig1, ax1 = plt.subplots()
 
+    # Distanza tra elementi
     explode = (0, 0, 0, 0.1, 0 , 0, 0, 0.1, 0, 0, 0)
 
     # autopct = Numero percentuale mostrato
     # startangle = parte da 90 gradi
-    ax1.pie(platform[1], labels=platform[0], autopct='%1.1f%%', startangle=90, explode=explode)
+    ax1.pie(matrice[1], labels=matrice[0], autopct='%1.1f%%', startangle=90, explode=explode)
     ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     
     return st.pyplot(fig1)
 
 
 
-file = pd.read_csv("videogame.csv") # salvo dati in 'file'
+file = pd.read_csv('videogame.csv', index_col=['Rank'])
 
-# DATAFRAME in vista
+### DATAFRAME in vista
 st.dataframe(file)
 
-# GRAPH BAR CON 'PIATTAFORME'
-collumPlatform = file['Platform'] # lista dati con colonna 'Platform'
 
-# checkPlatform()
-platform = [['PC', 'PS4', 'PS3', 'PS2', 'PSP', 'X360', 'XOne', 'DS', 'WiiU', 'Wii', '3DS'],
-            []]
-create0Value(platform)
-countPlatform(platform)
-# print(platform)
+### GRAFICO PIE CHART con Piattaforme
+colonna_file = estrai_colonna('Platform')
 
-piechart(platform)
+# colonna_file = rimuovi_clone(colonna_file)
+piattaforme = [['PC', 'PS4', 'PS3', 'PS2', 'PSP', 'X360', 'XOne', 'DS', 'WiiU', 'Wii', '3DS'],
+               []]
 
-#GRAFICO A LINEE
-colonna_anni = file['Year']
-colonna_anni = checkPlatform(colonna_anni)
+creazione_cella(piattaforme)
+assegnazione_cella0(piattaforme)
 
-st.line_chart(colonna_anni) 
+# conteggio elementi tra collona e matrice
+for valore in range(len(piattaforme[0])):
+        for valore_default in colonna_file:
+            if valore_default == piattaforme[0][valore]:
+                piattaforme[1][valore] += 1
+
+# mando a schermo il grafico
+piechart(piattaforme)
+
+
+### GRAFICO A LINEE con Anni e Profitto
+colonna_file = estrai_colonna('Year')
+
+anno_profitto = [[],[]]
+anno_profitto[0] = rimuovi_clone(colonna_file)
+creazione_cella(anno_profitto)
+assegnazione_cella0(anno_profitto)
+
+
+
 
 
 
