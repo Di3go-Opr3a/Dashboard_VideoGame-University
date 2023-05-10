@@ -43,17 +43,7 @@ def assegnazione_cella0(matrice):
 
 
 def piechart(matrice):
-    fig1, ax1 = plt.subplots()
-
-    # Distanza tra elementi
-    explode = (0, 0, 0, 0.1, 0 , 0, 0, 0.1, 0, 0, 0)
-
-    # autopct = Numero percentuale mostrato
-    # startangle = parte da 90 gradi
-    ax1.pie(matrice[1], labels=matrice[0], autopct='%1.1f%%', startangle=90, explode=explode)
-    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     
-    return st.pyplot(fig1)
 
 
 
@@ -104,7 +94,6 @@ st.dataframe(file)
 
 ### GRAFICO PIE CHART con Piattaforme
 colonna_file = estrai_colonna('Platform')
-
 # colonna_file = rimuovi_clone(colonna_file)
 piattaforme = [['PC', 'PS4', 'PS3', 'PS2', 'PSP', 'X360', 'XOne', 'DS', 'WiiU', 'Wii', '3DS'],
                []]
