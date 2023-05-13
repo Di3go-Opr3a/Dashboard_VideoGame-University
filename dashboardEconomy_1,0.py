@@ -1,7 +1,10 @@
 import streamlit as st # creazione interfaccia web
 from PIL import Image # importare immagini come ico per logo
 import pandas as pd # usato per creazione DataFrame da CSV
-import plotly.express as px
+import plotly.express as px # create a pie chart
+from streamlit_echarts import st_echarts
+import numpy as np
+
 
 def estrai_colonna(chiave):
     colonna = file[chiave].values # estraggo collona senza indice
@@ -58,6 +61,7 @@ def contaElementi_XY(lista, lista_default, memoria):
     return memoria
 
 
+# somma elementi tra due liste
 def sommaElementi_XY(listaFix, listaFix_default, listaValue_default, memoria):
     for x in (listaFix):
         for y in range(len(listaFix_default)):
@@ -65,12 +69,6 @@ def sommaElementi_XY(listaFix, listaFix_default, listaValue_default, memoria):
                     posizione = listaFix.index(x)
                     memoria[posizione] += float(listaValue_default[y])
     return memoria
-    
-
-def piechart(matrice):
-    fig = px.pie(file, values=matrice[1], names=matrice[0])
-    
-    return st.plotly_chart(fig, use_container_width=True)
 
 
 # HEADER
@@ -130,7 +128,9 @@ with st.container():
         assegnazione_cella0(piattaforme)
         piattaforme[1] = contaElementi_XY(piattaforme[0], colonna, piattaforme[1])
 
-        piechart(piattaforme)
+        fig = px.pie(file, values=piattaforme[1], names=piattaforme[0])
+        st.plotly_chart(fig, use_container_width=True)
+
 
     # Diagramma con Anno e Profitto
     with diagrammaLinee:
@@ -150,76 +150,85 @@ with st.container():
         })
 
         df = df.rename(columns={'date':'index'}).set_index('index')
-
         st.line_chart(df)
 
 
+    radar, pubblicazioni = st.columns(2)
+
+    # Radar di Piattaforme vs Genere
+    colonna = estrai_colonna('Platform')
+    colonna2 = estrai_colonna('Genre')
+    cicloGenre = rimuovi_clone(colonna2)
+    cicloGenre = cicloGenre[0:(len(cicloGenre)//2)]
+
+    PC = [[], []]
+    for x in cicloGenre:
+        PC[0].append(x)
+
+    creazione_cella(PC)
+    assegnazione_cella0(PC)
 
 
-#     radar = st.columns(1)
+    Wii = [[], []]
+    for x in cicloGenre:
+        Wii[0].append(x)
 
-#     # Radar di Piattaforme vs Genere
-#     with radar:
-#         option = {
-#             "legend": {"data": piattaforme[0]},
-#             "radar": {
-#                 "indicator": [
-#                     {"name": "Sports", "max": 6500},
-#                     {"name": "Platform", "max": 16000},
-#                     {"name": "Racing", "max": 30000},
-#                     {"name": "Role-Playing", "max": 38000},
-#                     {"name": "Puzzle", "max": 52000},
-#                     {"name": "Misc", "max": 25000},
-#                     {"name": "Shooter", "max": 25000},
-#                     {"name": "Simulation", "max": 25000},
-#                     {"name": "Action", "max": 25000},
-#                     {"name": "Fighting", "max": 25000},
-#                     {"name": "Adventure", "max": 25000},
-#                     {"name": "Strategy", "max": 25000},
-#                 ]
-#             },
-#             "series": [{   
-#                 "type": "radar",
-#                 "data": [
-#                     {
-#                         "value": [4200, 21000, 20000, 3400, 50000, 18000, 28100, 7000, 8000, 21000, 20000, 23050],
-#                         "name": "PC",
-#                     },
-#                     {
-#                         "value": [4800, 3000, 20000, 37000, 50000, 18000, 11000, 10000, 9000, 21000, 40000, 23000],
-#                         "name": "PS4",
-#                     },
-#                     {
-#                         "value": [4200, 3000, 20000, 35000, 50000, 18000, 12000, 5000, 9000, 21000, 40000, 23000],
-#                         "name": "PSP",
-#                     },
-#                     {
-#                         "value": [4200, 3000, 20000, 35000, 50000, 18000, 12000, 5000, 9000, 21000, 40000, 23000],
-#                         "name": "X360",
-#                     },
-#                     {
-#                         "value": [4200, 3000, 20000, 35000, 50000, 18000, 12000, 5000, 9000, 21000, 40000, 23000],
-#                         "name": "DS",
-#                     },
-#                     {
-#                         "value": [4200, 3000, 20000, 35000, 50000, 18000, 12000, 5000, 9000, 21000, 40000, 23000],
-#                         "name": "WiiU",
-#                     },
-#                     {
-#                         "value": [4200, 3000, 20000, 35000, 50000, 18000, 12000, 5000, 9000, 21000, 40000, 23000],
-#                         "name": "Wii",
-#                     },
-#                     {
-#                         "value": [4200, 3000, 20000, 35000, 50000, 18000, 12000, 5000, 9000, 21000, 40000, 23000],
-#                         "name": "3DS",
-#                     },
-#                 ],
-#             }],
-#         }
-#         st_echarts(option, height="500px")
+    creazione_cella(Wii)
+    assegnazione_cella0(Wii)      
 
-# # colonna = estrai_colonna('Genre')
-# # colonna = rimuovi_clone(colonna)
+
+
+    list_name = ["PC", "Wii"]
+    matrix = [[PC], [Wii]]
+
+    # matrix[0] , matrix[0][0] = PC
+    # matrix[1] , matrix[1][0] = Wii
+    # matrix[1][1] , matrix[0][1] = ERROR
+    # matrix[1][0][0] = ['fagioli', 'fragole'] -> Wii
+    # matrix[1][0][0][0] = fagioli
+
+    # matrix[0][0][0] = ['Sport', 'Surf'] -> PC
+    # matrix[0][0][0][0] = Sport
+    
+    for x in range(len(colonna)):
+        for y in range(len(list_name)):
+            if colonna[x] == list_name[y]:
+                for b in range(len(matrix[y][0][0])):
+                    if colonna2[x] == matrix[y][0][0][b]:
+                        matrix[y][0][1][b] = matrix[y][0][1][b] + 1
+                        break
+                            
+    print(matrix)
+    
+    with radar:
+        option = {
+            "legend": {"data": (list_name)}, # divido le piattaforme in quanto troppe
+            "radar": {
+                "indicator": [
+                    {"name": cicloGenre[0], "max": 300},
+                    {"name": cicloGenre[1], "max": 300},
+                    {"name": cicloGenre[2], "max": 300},
+                    {"name": cicloGenre[3], "max": 300},
+                    {"name": cicloGenre[4], "max": 300},
+                    {"name": cicloGenre[5], "max": 300},
+                ]
+            },
+            "series": [{   
+                "type": "radar",
+                "data": [
+                    {
+                        "value": matrix[0][0][1],
+                        "name": list_name[0],
+                    },
+                    {
+                        "value": matrix[1][0][1],
+                        "name": list_name[1],
+                    },
+                ],
+            }],
+        }
+        
+        st_echarts(option, height="500px")
 
 
 
@@ -246,3 +255,21 @@ hide_footer_style = '''
 .appview-container .main footer {visibility: hidden;}
 '''
 st.markdown(hide_footer_style, unsafe_allow_html=True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
