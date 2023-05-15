@@ -1,9 +1,9 @@
 import streamlit as st # creazione interfaccia web
 from PIL import Image # importare immagini come ico per logo
-import pandas as pd # usato per creazione DataFrame da CSV
-import plotly.express as px # create a pie chart
-from streamlit_echarts import st_echarts
-import numpy as np
+import pandas as pd # usato per creazione di vari DataFrame da CSV
+import plotly.express as px # creazione pie chart
+from streamlit_echarts import st_echarts # creazione radar
+import numpy as np # zeros
 
 
 def estrai_colonna(chiave):
@@ -51,24 +51,14 @@ def rimuovi_clone(lista_default):
     return lista
 
 
-# conteggio elementi tra due liste
-def contaElementi_XY(lista, lista_default, memoria):
-    for x in range(len(lista)):
-        for y in lista_default:
-            if y == lista[x]:
-                memoria[x] += 1
+def matrixRadar(matrice):
+    for x in cicloGenre:
+        matrice[0].append(x)
 
-    return memoria
+    creazione_cella(matrice)
+    assegnazione_cella0(matrice)
 
-
-# somma elementi tra due liste
-def sommaElementi_XY(listaFix, listaFix_default, listaValue_default, memoria):
-    for x in (listaFix):
-        for y in range(len(listaFix_default)):
-                if x == listaFix_default[y]:
-                    posizione = listaFix.index(x)
-                    memoria[posizione] += float(listaValue_default[y])
-    return memoria
+    return matrice
 
 
 # HEADER
@@ -80,6 +70,7 @@ st.set_page_config(
     layout="wide", # prende tutto lo schermo
     initial_sidebar_state="auto" # menu di lato (aperta o chiusa),
 )
+
 
 # MAIN CONTENT
 # Banner
@@ -114,10 +105,91 @@ with st.container():
     AltriContinenti.metric("AltriContinenti", ricavoTotale_Area('Other_Sales'))
 
 
-    st.dataframe(file)
+
+    dataframe, radar = st.columns([1.5, 1], gap="medium")
+    
+    with dataframe:
+        st.dataframe(file)
+    
+    # Radar di Piattaforme vs Genere
+    colonna = estrai_colonna('Platform')
+    colonna2 = estrai_colonna('Genre')
+    cicloGenre = rimuovi_clone(colonna2)
+    cicloGenre = ['Sports', 'Action', 'Role-Playing', 'Misc', 'Shooter', 'Strategy', 'Adventure']
+
+    PC = [[], []]
+    PC = matrixRadar(PC)
+
+    Wii = [[], []]
+    Wii = matrixRadar(Wii)      
+
+    PSP = [[],[]]
+    PSP = matrixRadar(PSP)
+
+    PS4 = [[],[]]
+    PS4 = matrixRadar(PS4)
+
+    X360 = [[],[]]
+    X360 = matrixRadar(X360)
+
+    list_name = ["PC", "Wii", "PSP", "PS4", "X360"]
+    matrix = [[PC], [Wii], [PSP], [PS4], [X360]]
+    
+    # contatore quanti generi corispondono alle singole piattaforme
+    for x in range(len(colonna)):
+        for y in range(len(list_name)):
+            if colonna[x] == list_name[y]:
+                for b in range(len(matrix[y][0][0])):
+                    if colonna2[x] == matrix[y][0][0][b]:
+                        matrix[y][0][1][b] = matrix[y][0][1][b] + 1
+                        break
+    
+    with radar:
+        option = {
+            "legend": {"data": (list_name)},
+            "radar": {
+                "indicator": [
+                    {"name": cicloGenre[0], "max": 300},
+                    {"name": cicloGenre[1], "max": 400},
+                    {"name": cicloGenre[2], "max": 300},
+                    {"name": cicloGenre[3], "max": 300},
+                    {"name": cicloGenre[4], "max": 300},
+                    {"name": cicloGenre[5], "max": 300},
+                    {"name": cicloGenre[6], "max": 300},
+                ]
+            },
+            "series": [{   
+                "type": "radar",
+                "data": [
+                    {
+                        "value": matrix[0][0][1],
+                        "name": list_name[0],
+                    },
+                    {
+                        "value": matrix[1][0][1],
+                        "name": list_name[1],
+                    },
+                    {
+                        "value": matrix[2][0][1],
+                        "name": list_name[2],
+                    },
+                    {
+                        "value": matrix[3][0][1],
+                        "name": list_name[3],
+                    },
+                    {
+                        "value": matrix[4][0][1],
+                        "name": list_name[4],
+                    },
+                ],
+            }],
+        }
+        st_echarts(option, height="500px")
+
 
 
     pieChart, diagrammaLinee = st.columns([1, 1.5], gap='large')
+    
     # Grafico a Torta con Percentuali Piattaforme
     with pieChart:
         colonna = estrai_colonna('Platform')
@@ -126,7 +198,12 @@ with st.container():
         piattaforme = [['PC', 'PS4', 'PS3', 'PS2', 'PSP', 'X360', 'XOne', 'DS', 'WiiU', 'Wii', '3DS'],[]]
         creazione_cella(piattaforme)
         assegnazione_cella0(piattaforme)
-        piattaforme[1] = contaElementi_XY(piattaforme[0], colonna, piattaforme[1])
+
+        # conto elementi tra due liste
+        for x in range(len(piattaforme[0])):
+            for y in colonna:
+                if y == piattaforme[0][x]:
+                    piattaforme[1][x] += 1
 
         fig = px.pie(file, values=piattaforme[1], names=piattaforme[0])
         st.plotly_chart(fig, use_container_width=True)
@@ -142,96 +219,55 @@ with st.container():
         creazione_cella(anno_profitto)
         assegnazione_cella0(anno_profitto)
 
-        anno_profitto[1] = sommaElementi_XY(anno_profitto[0], colonna, colonna2, anno_profitto[1])
-        
+        # somma di elementi fra due colonne
+        for x in (anno_profitto[0]):
+            for y in range(len(colonna)):
+                if x == colonna[y]:
+                    posizione = anno_profitto[0].index(x)
+                    anno_profitto[1][posizione] += float(colonna2[y])
+
+        # creazione dataframe momentaneo per creare grafico
         df = pd.DataFrame({
             'date': anno_profitto[0],
-            'second column': anno_profitto[1]
+            'profitto anno': anno_profitto[1]
         })
 
         df = df.rename(columns={'date':'index'}).set_index('index')
         st.line_chart(df)
 
 
-    radar, pubblicazioni = st.columns(2)
+    # GRAFICO A BARRE QUANTE PUBBLICAZIONI HANNO FATTO LE CASE MADRI
+    colonna_file = estrai_colonna('Publisher')
+    colonna_file = list(filter(esistenza, colonna_file)) # possibili spazi vuoti
 
-    # Radar di Piattaforme vs Genere
-    colonna = estrai_colonna('Platform')
-    colonna2 = estrai_colonna('Genre')
-    cicloGenre = rimuovi_clone(colonna2)
-    cicloGenre = cicloGenre[0:(len(cicloGenre)//2)]
+    publicazione = [[],[]]
+    publicazione[0] = rimuovi_clone(colonna_file)
+    creazione_cella(publicazione)
+    assegnazione_cella0(publicazione)
 
-    PC = [[], []]
-    for x in cicloGenre:
-        PC[0].append(x)
+    for valore in range(len(publicazione[0])):
+        for valore_default in range(len(colonna_file)):
+            if publicazione[0][valore] == colonna_file[valore_default]:
+                publicazione[1][valore] += 1
 
-    creazione_cella(PC)
-    assegnazione_cella0(PC)
+    list = []
+    list2 = []
 
+    for x in range(len(publicazione[1])):
+        if publicazione[1][x] > 25:
+            list2.append(publicazione[0][x])
+            list.append(publicazione[1][x])
 
-    Wii = [[], []]
-    for x in cicloGenre:
-        Wii[0].append(x)
+    publicazione[0] = list2
+    publicazione[1] = list
 
-    creazione_cella(Wii)
-    assegnazione_cella0(Wii)      
+    df = pd.DataFrame({
+        'date': publicazione[0],
+        'second column': publicazione[1]
+    })
 
-
-
-    list_name = ["PC", "Wii"]
-    matrix = [[PC], [Wii]]
-
-    # matrix[0] , matrix[0][0] = PC
-    # matrix[1] , matrix[1][0] = Wii
-    # matrix[1][1] , matrix[0][1] = ERROR
-    # matrix[1][0][0] = ['fagioli', 'fragole'] -> Wii
-    # matrix[1][0][0][0] = fagioli
-
-    # matrix[0][0][0] = ['Sport', 'Surf'] -> PC
-    # matrix[0][0][0][0] = Sport
-    
-    for x in range(len(colonna)):
-        for y in range(len(list_name)):
-            if colonna[x] == list_name[y]:
-                for b in range(len(matrix[y][0][0])):
-                    if colonna2[x] == matrix[y][0][0][b]:
-                        matrix[y][0][1][b] = matrix[y][0][1][b] + 1
-                        break
-                            
-    print(matrix)
-    
-    with radar:
-        option = {
-            "legend": {"data": (list_name)}, # divido le piattaforme in quanto troppe
-            "radar": {
-                "indicator": [
-                    {"name": cicloGenre[0], "max": 300},
-                    {"name": cicloGenre[1], "max": 300},
-                    {"name": cicloGenre[2], "max": 300},
-                    {"name": cicloGenre[3], "max": 300},
-                    {"name": cicloGenre[4], "max": 300},
-                    {"name": cicloGenre[5], "max": 300},
-                ]
-            },
-            "series": [{   
-                "type": "radar",
-                "data": [
-                    {
-                        "value": matrix[0][0][1],
-                        "name": list_name[0],
-                    },
-                    {
-                        "value": matrix[1][0][1],
-                        "name": list_name[1],
-                    },
-                ],
-            }],
-        }
-        
-        st_echarts(option, height="500px")
-
-
-
+    df = df.rename(columns={'date':'index'}).set_index('index')
+    st.bar_chart(df)
 
 
 # Style Profitti Totali Aree Geografiche
@@ -249,27 +285,8 @@ st.markdown('''
 .stDataFrame {margin-top: 20px;}
 ''', unsafe_allow_html=True)
 
-
 hide_footer_style = '''
 <style>
 .appview-container .main footer {visibility: hidden;}
 '''
 st.markdown(hide_footer_style, unsafe_allow_html=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
