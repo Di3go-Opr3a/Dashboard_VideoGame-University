@@ -62,27 +62,14 @@ def matrixRadar(matrice):
 
 
 # HEADER
-logo = Image.open("image.ico")
+icon = Image.open("image.ico")
 
 st.set_page_config(
     page_title="StrealClix",
-    page_icon= logo,
+    page_icon= icon,
     layout="wide", # prende tutto lo schermo
     initial_sidebar_state="auto" # menu di lato (aperta o chiusa),
 )
-
-
-# MAIN CONTENT
-# Banner
-st.markdown('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">', unsafe_allow_html=True)
-
-st.markdown('''
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark bannerStrealClix" style="background-color: #fff;">
-  <img src="https://shorturl.at/hoHT0" />
-</nav>
-<style>
-.bannerStrealClix img {width: 23%; margin: auto;}
-''', unsafe_allow_html=True)
 
 hide_menu_style = '''
 <style>
@@ -92,16 +79,32 @@ header {visibility:hidden;}
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 
+# MAIN CONTENT
+# Banner
+st.markdown('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">', unsafe_allow_html=True)
+
+st.markdown('''
+<nav class="navbar navbar-expand-lg navbar-dark bannerStrealClix" style="background-color: #fff;">
+    <iframe src="https://embed.lottiefiles.com/animation/143963"></iframe>
+    <img src="https://drive.google.com/uc?export=view&id=19JI8HlQ-4BvQRzpTgZvrUcaXTALn70Uf">
+</nav>
+<style>
+.bannerStrealClix img {width: 23%; margin: auto;}
+.css-z5fcl4 {padding: 0 5rem 0 5rem}
+.bannerStrealClix iframe {position: absolute; width: 10%; height: auto; margin-left: 2rem}
+''', unsafe_allow_html=True)
+
+
 file = pd.read_csv('videogame.csv', index_col=['Rank'])
 
 with st.container():
     # Somma Profitti Totali Aree Geografiche
     RicavoTotale, Europa, America, Giappone, AltriContinenti = st.columns(5)
-
+                
     RicavoTotale.metric("Profitto Totale", ricavoTotale_Area('Global_Sales'))
     Europa.metric("Europa", ricavoTotale_Area('EU_Sales'))
     America.metric("America", ricavoTotale_Area('NA_Sales'))
-    Giappone.metric("Giappone", ricavoTotale_Area('JP_Sales'))
+    Giappone.metric("Asia", ricavoTotale_Area('JP_Sales'))
     AltriContinenti.metric("AltriContinenti", ricavoTotale_Area('Other_Sales'))
 
 
@@ -185,11 +188,9 @@ with st.container():
             }],
         }
         st_echarts(option, height="500px")
-
-
+        
 
     pieChart, diagrammaLinee = st.columns([1, 1.5], gap='large')
-    
     # Grafico a Torta con Percentuali Piattaforme
     with pieChart:
         colonna = estrai_colonna('Platform')
@@ -211,6 +212,11 @@ with st.container():
 
     # Diagramma con Anno e Profitto
     with diagrammaLinee:
+        st.markdown('''
+            <iframe class="animation2" src="https://embed.lottiefiles.com/animation/142251"></iframe>
+            <style>
+            .animation2 {z-index: 1000; position: absolute; width: 5em; height: 5em}
+        ''', unsafe_allow_html=True)
         colonna = estrai_colonna('Year')
         colonna2 = estrai_colonna('Global_Sales')
 
@@ -268,6 +274,15 @@ with st.container():
 
     df = df.rename(columns={'date':'index'}).set_index('index')
     st.bar_chart(df)
+
+
+    logo, multilineechart = st.columns([0.5, 1.5], gap='small')
+
+    with logo:
+        logoIMG = Image.open("logo.png")
+        st.image(logoIMG)
+
+
 
 
 # Style Profitti Totali Aree Geografiche
