@@ -3,8 +3,7 @@ from PIL import Image # importare immagini come ico per logo
 import pandas as pd # usato per creazione di vari DataFrame da CSV
 import plotly.express as px # creazione pie chart
 from streamlit_echarts import st_echarts # creazione radar
-import numpy as np # zeros
-
+import numpy as np # creazione celle zeros
 
 def estrai_colonna(chiave):
     colonna = file[chiave].values # estraggo collona senza indice
@@ -26,10 +25,8 @@ def creazione_cella(matrice):
 
 # assegno valore zero alle celle nulle
 def assegnazione_cella0(matrice):
-    count = len(matrice[0])
-
-    for valore in range(count):
-        matrice[1][valore] = 0
+    matrice[1] = np.zeros(len(matrice[0]), dtype=int)
+    matrice[1] = matrice[1].tolist()
 
 
 def esistenza(valore):
