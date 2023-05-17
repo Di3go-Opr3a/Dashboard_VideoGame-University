@@ -285,7 +285,7 @@ with st.container():
     st.bar_chart(df)
 
 
-    logo, multychart = st.columns([0.5, 1.5], gap='small')
+    logo, multychart, avatar = st.columns([0.5, 1.5, 0.5], gap='small')
     
     with logo:
         logoIMG = Image.open("logo.png")
@@ -311,7 +311,6 @@ with st.container():
 
         st.line_chart(df)
 
-    col1, avatar = st.columns([1.5, 0.5], gap='small')
     with avatar:
         logoIMG = Image.open("Avatar.png")
         st.image(logoIMG)
