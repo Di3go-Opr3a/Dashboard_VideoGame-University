@@ -25,8 +25,8 @@ def creazione_cella(matrice):
 
 # assegno valore zero alle celle nulle
 def assegnazione_cella0(matrice):
-    matrice[1] = np.zeros(len(matrice[0]), dtype=int)
-    matrice[1] = matrice[1].tolist()
+    matrice[1] = np.zeros(len(matrice[0]), dtype=int) # crea array di zero
+    matrice[1] = matrice[1].tolist() # convertire da array a lista
 
 
 def esistenza(valore):
@@ -56,6 +56,18 @@ def matrixRadar(matrice):
     assegnazione_cella0(matrice)
 
     return matrice
+
+
+def multychart_value(text, colonna, anni):
+    listValue = [0] * len(anni)
+    colonna2 = estrai_colonna(text)
+
+    for x in range(len(colonna)):
+        for y in range(len(anni)):
+            if colonna[x] == anni[y]:
+                listValue[y] = listValue[y] + colonna2[x]
+
+    return listValue
 
 
 # HEADER
@@ -143,7 +155,7 @@ with st.container():
                     if colonna2[x] == matrix[y][0][0][b]:
                         matrix[y][0][1][b] = matrix[y][0][1][b] + 1
                         break
-    
+
     with radar:
         option = {
             "legend": {"data": (list_name)},
@@ -253,16 +265,16 @@ with st.container():
             if publicazione[0][valore] == colonna_file[valore_default]:
                 publicazione[1][valore] += 1
 
-    list = []
+    lista = []
     list2 = []
 
     for x in range(len(publicazione[1])):
         if publicazione[1][x] > 25:
             list2.append(publicazione[0][x])
-            list.append(publicazione[1][x])
+            lista.append(publicazione[1][x])
 
     publicazione[0] = list2
-    publicazione[1] = list
+    publicazione[1] = lista
 
     df = pd.DataFrame({
         'date': publicazione[0],
@@ -273,12 +285,36 @@ with st.container():
     st.bar_chart(df)
 
 
-    logo, multilineechart = st.columns([0.5, 1.5], gap='small')
-
+    logo, multychart = st.columns([0.5, 1.5], gap='small')
+    
     with logo:
         logoIMG = Image.open("logo.png")
         st.image(logoIMG)
 
+    with multychart:
+        colonna = estrai_colonna('Year')
+        colonna = list(map(str, colonna))
+        anni = rimuovi_clone(list(map(str, colonna)))
+
+        europa = multychart_value("EU_Sales", colonna, anni)
+        america = multychart_value("NA_Sales", colonna, anni)
+        giappone = multychart_value("JP_Sales", colonna, anni)
+        altri = multychart_value("Other_Sales", colonna, anni)
+
+        anni = list(map(float, anni))
+        anni = list(map(int, anni))
+
+        df = pd.DataFrame({'europa': europa,
+                   'america': america,
+                   'giappone': giappone,
+                   'altri': altri}, index=anni)
+
+        st.line_chart(df)
+
+    col1, avatar = st.columns([1.5, 0.5], gap='small')
+    with avatar:
+        logoIMG = Image.open("Avatar.png")
+        st.image(logoIMG)
 
 
 
