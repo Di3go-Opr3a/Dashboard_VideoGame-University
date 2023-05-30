@@ -4,6 +4,7 @@ import pandas as pd # usato per creazione di vari DataFrame da CSV
 import plotly.express as px # creazione pie chart
 from streamlit_echarts import st_echarts # creazione radar
 import numpy as np # creazione celle zeros
+import altair as alt # inserire nomi agli assi
 
 
 def estrai_colonna(chiave):
@@ -200,6 +201,8 @@ with st.container():
         }
         st_echarts(option, height="500px")
 
+
+
     pieChart, diagrammaLinee = st.columns([1, 1.5], gap='large')
     # Grafico a Torta con Percentuali Piattaforme
     with pieChart:
@@ -252,14 +255,13 @@ with st.container():
             'profitto_annuale': anno_profitto[1]
         })
 
-        import altair as alt
-
         line_chart = alt.Chart(df).mark_line().encode(
         y=  alt.Y('profitto_annuale', title='Profitto($)'),
         x=  alt.X( 'date', title='Anno')
         )
         
         st.altair_chart(line_chart, use_container_width=True)
+
 
 
     # GRAFICO A BARRE QUANTE PUBBLICAZIONI HANNO FATTO LE CASE MADRI
@@ -296,10 +298,11 @@ with st.container():
 
     line_chart = alt.Chart(df).mark_bar().encode(
         y=  alt.Y('pubblicazioni', title='Pubblicazioni'),
-        x=  alt.X( 'date', title='Aziende pubblicazioni Videogame')
+        x=  alt.X('date', title='Aziende Videogame')
         )
         
     st.altair_chart(line_chart, use_container_width=True)
+
 
 
     logo, multychart, avatar = st.columns([0.5, 1.5, 0.5], gap='small')
@@ -309,6 +312,8 @@ with st.container():
         st.image(logoIMG)
 
     with multychart:
+        st.subheader("Grafico Multi Linee di Profitto VS Continenti")
+        st.write(":blue[Descrizione:] Grafico Multi Linee nel quale vengono importati i profitti indicati in cima, come grafici a linee. Durante il corso degli anni ci sono stati degli sovrapossizionamenti")
         colonna = estrai_colonna('Year')
         colonna = list(map(str, colonna))
         anni = rimuovi_clone(list(map(str, colonna)))
@@ -320,13 +325,24 @@ with st.container():
 
         anni = list(map(float, anni))
         anni = list(map(int, anni))
+       
+        df = pd.DataFrame({
+            'anni': anni,
+            'europa': europa,
+            'america': america,
+            'giappone': giappone,
+            'altri': altri})
 
-        df = pd.DataFrame({'europa': europa,
-                   'america': america,
-                   'giappone': giappone,
-                   'altri': altri}, index=anni)
-
-        st.line_chart(df)
+        line_chart = alt.Chart(df).transform_fold(
+            ['europa', 'america', 'giappone','altri']
+        ).mark_line().encode(
+            x= alt.X('anni:O', title='Anno'),
+            y= alt.Y('value:Q', title='Profitto'),
+            color='key:N'
+        )
+        
+        st.altair_chart(line_chart, use_container_width=True)
+  
 
     with avatar:
         logoIMG = Image.open("Avatar.png")
