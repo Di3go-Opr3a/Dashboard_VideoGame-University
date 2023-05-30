@@ -74,7 +74,7 @@ def multychart_value(text, colonna, anni):
 icon = Image.open("image.ico")
 
 st.set_page_config(
-    page_title="StrealClix",
+    page_title="StrealmClix",
     page_icon= icon,
     layout="wide", # prende tutto lo schermo
     initial_sidebar_state="auto" # menu di lato (aperta o chiusa),
@@ -121,7 +121,7 @@ with st.container():
     dataframe, radar = st.columns([1.5, 1], gap="medium")
     
     with dataframe:
-        st.subheader(':globe_with_meridians: :red[Dataframe StrealClix]')
+        st.subheader(':globe_with_meridians: :red[Dataframe StrealmClix]')
         st.dataframe(file)
     
     # Radar di Piattaforme vs Genere
