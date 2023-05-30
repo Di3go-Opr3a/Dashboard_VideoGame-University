@@ -121,6 +121,7 @@ with st.container():
     dataframe, radar = st.columns([1.5, 1], gap="medium")
     
     with dataframe:
+        st.subheader(':globe_with_meridians: :red[Dataframe StrealClix]')
         st.dataframe(file)
     
     # Radar di Piattaforme vs Genere
@@ -197,7 +198,6 @@ with st.container():
             }],
         }
         st_echarts(option, height="500px")
-        
 
     pieChart, diagrammaLinee = st.columns([1, 1.5], gap='large')
     # Grafico a Torta con Percentuali Piattaforme
@@ -216,6 +216,8 @@ with st.container():
                     piattaforme[1][x] += 1
 
         fig = px.pie(file, values=piattaforme[1], names=piattaforme[0])
+        st.subheader("Diagramma a torta % Piattaforme")
+        st.write("Descrizione: possibilità di vedere quali piattaforme sono state più usate nel corso degli anni")
         st.plotly_chart(fig, use_container_width=True)
 
 
@@ -244,7 +246,7 @@ with st.container():
         # creazione dataframe momentaneo per creare grafico
         df = pd.DataFrame({
             'date': anno_profitto[0],
-            'profitto anno': anno_profitto[1]
+            'profitto annuale': anno_profitto[1]
         })
 
         df = df.rename(columns={'date':'index'}).set_index('index')
@@ -326,14 +328,16 @@ st.markdown('''
 .css-t4htji {border: 3px solid #d09f14; padding: 3px; border-radius: 10px 0 10px 0;}
 ''', unsafe_allow_html=True)
 
-# Style DataFrame
-st.markdown('''
-<style>
-.stDataFrame {margin-top: 20px;}
-''', unsafe_allow_html=True)
-
 hide_footer_style = '''
 <style>
 .appview-container .main footer {visibility: hidden;}
 '''
 st.markdown(hide_footer_style, unsafe_allow_html=True)
+
+st.markdown("""
+<style>
+p {
+    font-size:16px;
+}
+</style>
+""", unsafe_allow_html=True)
