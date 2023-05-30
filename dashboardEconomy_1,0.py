@@ -5,6 +5,7 @@ import plotly.express as px # creazione pie chart
 from streamlit_echarts import st_echarts # creazione radar
 import numpy as np # creazione celle zeros
 
+
 def estrai_colonna(chiave):
     colonna = file[chiave].values # estraggo collona senza indice
     colonna = colonna.tolist() # conversione numpy -> list
@@ -217,12 +218,14 @@ with st.container():
 
         fig = px.pie(file, values=piattaforme[1], names=piattaforme[0])
         st.subheader("Diagramma a torta % Piattaforme")
-        st.write("Descrizione: possibilità di vedere quali piattaforme sono state più usate nel corso degli anni")
+        st.write(":blue[Descrizione:] possibilità di vedere quali piattaforme sono state più usate nel corso degli anni")
         st.plotly_chart(fig, use_container_width=True)
 
 
     # Diagramma con Anno e Profitto
     with diagrammaLinee:
+        st.subheader("Profitto Totale VS Anni")
+        st.write(":blue[Descrizione:] Nel corso degli anni il profitto globale coseguito che è possibile vedere nel grafico, ha avuto un picco Max nel 2008")
         st.markdown('''
             <iframe class="animation2" src="https://embed.lottiefiles.com/animation/142251"></iframe>
             <style>
@@ -246,14 +249,22 @@ with st.container():
         # creazione dataframe momentaneo per creare grafico
         df = pd.DataFrame({
             'date': anno_profitto[0],
-            'profitto annuale': anno_profitto[1]
+            'profitto_annuale': anno_profitto[1]
         })
 
-        df = df.rename(columns={'date':'index'}).set_index('index')
-        st.line_chart(df)
+        import altair as alt
+
+        line_chart = alt.Chart(df).mark_line().encode(
+        y=  alt.Y('profitto_annuale', title='Profitto($)'),
+        x=  alt.X( 'date', title='Anno')
+        )
+        
+        st.altair_chart(line_chart, use_container_width=True)
 
 
     # GRAFICO A BARRE QUANTE PUBBLICAZIONI HANNO FATTO LE CASE MADRI
+    st.subheader("Pubblicazioni numero giochi")
+    st.write(":blue[Descrizione:] Grafico a Barre nel quale è possibile vedere le varie aziende quanti giochi hanno pubblicato, ad averne caricate di più è 'Electronics Arts'")
     colonna_file = estrai_colonna('Publisher')
     colonna_file = list(filter(esistenza, colonna_file)) # possibili spazi vuoti
 
@@ -280,11 +291,15 @@ with st.container():
 
     df = pd.DataFrame({
         'date': publicazione[0],
-        'second column': publicazione[1]
+        'pubblicazioni': publicazione[1]
     })
 
-    df = df.rename(columns={'date':'index'}).set_index('index')
-    st.bar_chart(df)
+    line_chart = alt.Chart(df).mark_bar().encode(
+        y=  alt.Y('pubblicazioni', title='Pubblicazioni'),
+        x=  alt.X( 'date', title='Aziende pubblicazioni Videogame')
+        )
+        
+    st.altair_chart(line_chart, use_container_width=True)
 
 
     logo, multychart, avatar = st.columns([0.5, 1.5, 0.5], gap='small')
