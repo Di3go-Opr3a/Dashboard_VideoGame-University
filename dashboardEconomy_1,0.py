@@ -150,7 +150,7 @@ with st.container():
     list_name = ["PC", "Wii", "PSP", "PS4", "X360"]
     matrix = [[PC], [Wii], [PSP], [PS4], [X360]]
     
-    # Contatore - Quanti generi corispondono alle singole piattaforme?
+    # Contatore - Quanti generi corrispondono alle singole piattaforme?
     for x in range(len(colonna)):
         for y in range(len(list_name)):
             if colonna[x] == list_name[y]:
@@ -227,7 +227,7 @@ with st.container():
     # Diagramma con Anno e Profitto
     with diagrammaLinee:
         st.subheader("Profitto Totale VS Anni")
-        st.write(":blue[Descrizione:] Nel corso degli anni il profitto globale coseguito che è possibile vedere nel grafico, ha avuto un picco Max nel 2008")
+        st.write(":blue[Descrizione:] Nel corso degli anni il profitto globale conseguito che è possibile vedere nel grafico, ha avuto un picco Max nel 2008")
         st.markdown('''
             <iframe class="animation2" src="https://embed.lottiefiles.com/animation/142251"></iframe>
             <style>
@@ -311,7 +311,7 @@ with st.container():
 
     with multychart:
         st.subheader("Grafico Multi Linee di Profitto VS Continenti")
-        st.write(":blue[Descrizione:] Grafico Multi Linee nel quale vengono importati i profitti indicati in cima, come grafici a linee. Durante il corso degli anni ci sono stati degli sovrapossizionamenti")
+        st.write(":blue[Descrizione:] Grafico Multi Linee nel quale vengono importati i profitti indicati in cima, come grafici a linee. Durante il corso degli anni ci sono stati dei sovrapposizionamenti.")
         colonna = estrai_colonna('Year')
         colonna = list(map(str, colonna))
         anni = rimuovi_clone(list(map(str, colonna)))
