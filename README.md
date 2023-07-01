@@ -1,7 +1,5 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-IuXYs6S1y5QKkS5vzsqCUpoOl9O8+L3p8KWT68CnQyKpQkfsNycu1mpN1+7QPO4w8HBC+oYaN1T09m2mq8SdJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 <h1 align="center">
-  <img src="https://github.com/Di3go-Opr3a/Dashboard_Videogames-University/blob/main/banner.png" alt="StrealmClix" width="600">
+  <img src="https://github.com/Di3go-Opr3a/Dashboard_VideoGame-University/blob/main/Image/banner.png" alt="StrealmClix" width="600">
 </h1>
 <h3 align="center">Dashboard to display various graphs regarding data from video game CSV files</h3>
 
