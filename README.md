@@ -1,127 +1,91 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-IuXYs6S1y5QKkS5vzsqCUpoOl9O8+L3p8KWT68CnQyKpQkfsNycu1mpN1+7QPO4w8HBC+oYaN1T09m2mq8SdJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <h1 align="center">
-  <br>
-  <a href="http://www.amitmerchant.com/electron-markdownify"><img src="https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.png" alt="Markdownify" width="200"></a>
-  <br>
-  Markdownify
-  <br>
+  <img src="https://github.com/Di3go-Opr3a/Dashboard_Videogames-University/blob/main/banner.png" alt="StrealmClix" width="600">
 </h1>
-
-<h4 align="center">A minimal Markdown Editor desktop app built on top of <a href="http://electron.atom.io" target="_blank">Electron</a>.</h4>
+<h3 align="center">Dashboard to display various graphs regarding data from video game CSV files</h3>
 
 <p align="center">
-  <a href="https://badge.fury.io/js/electron-markdownify">
-    <img src="https://badge.fury.io/js/electron-markdownify.svg"
-         alt="Gitter">
+  <a href="https://numpy.org/install/">
+    <img src="https://badge.fury.io/py/numpy.svg"
+         alt="Numpy">
   </a>
-  <a href="https://gitter.im/amitmerchant1990/electron-markdownify"><img src="https://badges.gitter.im/amitmerchant1990/electron-markdownify.svg"></a>
-  <a href="https://saythanks.io/to/bullredeyes@gmail.com">
-      <img src="https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg">
+  <a href="https://pypi.org/project/pandas/">
+  	<img src="https://badge.fury.io/py/pandas.svg">
   </a>
-  <a href="https://www.paypal.me/AmitMerchant">
-    <img src="https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&amp;style=flat">
+
+  <a href="https://docs.streamlit.io/library/get-started/installation">
+      <img src="https://badge.fury.io/py/streamlit.svg">
   </a>
+
+  <a href="https://pypi.org/project/Pillow/">
+      <img src="https://badge.fury.io/py/PIL.svg">
+  </a>
+  
+  <a href="https://pypi.org/project/altair/">
+      <img src="https://badge.fury.io/py/altair.svg">
+  </a>
+
+  <a href="https://pypi.org/project/plotly-express/">
+      <img src="https://badge.fury.io/py/mathplot.svg">
+  </a>
+  
 </p>
 
 <p align="center">
-  <a href="#key-features">Key Features</a> •
-  <a href="#how-to-use">How To Use</a> •
-  <a href="#download">Download</a> •
-  <a href="#credits">Credits</a> •
-  <a href="#related">Related</a> •
-  <a href="#license">License</a>
+<img src="https://github.com/Di3go-Opr3a/Dashboard_Videogames-University/assets/131962277/f9383dd7-8740-4f76-87a7-cb44898b6701">
 </p>
+<br>
 
-![screenshot](https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.gif)
+## About the repository 🎯🚀
+Welcome to the repository of the video game dashboard project! This repository contains the source code and files needed to create an interactive dashboard that displays data extracted from a CSV file regarding video games. The project was developed as part of the "**computer science**" exam in college, and we were able to get the **highest score** because of it "**30L**"
 
-## Key Features
+## Purpose of the project <img src="https://github.com/Di3go-Opr3a/Dashboard_Videogames-University/assets/131962277/c108fb08-4811-4acf-bf56-effb738bf842" alt="Streamlit Icon" width="2%"><img src="https://github.com/Di3go-Opr3a/Dashboard_Videogames-University/assets/131962277/3b604b02-f970-46e7-b30f-e19b83c02e8f" alt="Python Icon" width="2%">
 
-* LivePreview - Make changes, See changes
-  - Instantly see what your Markdown documents look like in HTML as you create them.
-* Sync Scrolling
-  - While you type, LivePreview will automatically scroll to the current location you're editing.
-* GitHub Flavored Markdown  
-* Syntax highlighting
-* [KaTeX](https://khan.github.io/KaTeX/) Support
-* Dark/Light mode
-* Toolbar for basic Markdown formatting
-* Supports multiple cursors
-* Save the Markdown preview as PDF
-* Emoji support in preview :tada:
-* App will keep alive in tray for quick usage
-* Full screen mode
-  - Write distraction free.
-* Cross platform
-  - Windows, macOS and Linux ready.
+The main goal of this project is to provide an intuitive and informative dashboard to visualize data about video games. Using the **Streamlit library** and the **Python** programming language, we were able to create a web application that allows users to explore and analyze data interactively.
 
 ## How To Use
+To clone and execute the code, the following must be installed on the computer:
+<ul>
+<li>[Numpy](https://numpy.org/install/)</li>	
+<li>[Pandas](https://pypi.org/project/pandas/)</li>
+<li>[Streamlit](https://docs.streamlit.io/library/get-started/installation)</li>
+<li>[PIL](https://pypi.org/project/Pillow/)</li>
+<li>[Altair](https://pypi.org/project/altair/)</li>
+<li>[Plotly Express](https://pypi.org/project/plotly-express/)</li>
+</ul>
 
-To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
-
+From the command line:
 ```bash
 # Clone this repository
-$ git clone https://github.com/amitmerchant1990/electron-markdownify
+$ git clone https://github.com/Di3go-Opr3a/Dashboard_VideoGame-University.git
 
-# Go into the repository
-$ cd electron-markdownify
+# Enter the repository
+$ cd Dashboard_VideoGame-University.
 
-# Install dependencies
-$ npm install
+# Install the dependencies
+$ python get-pip.py
+$ pip install numpy
+$ pip install pandas
+$ pip install streamlit
+$ pip install pillow
+$ pip install altair
+$ pip install plotly-express
 
-# Run the app
-$ npm start
+# run the application
+$ streamlit run Dashboard.py
 ```
+![video](https://github.com/Di3go-Opr3a/Dashboard_Videogames-University/assets/131962277/5442af79-2105-4d45-9bda-79ed6d9810c4)
 
-> **Note**
-> If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
+## Contributions ❤
+If you would like to contribute to this project, you are welcome! You can open issues to report bugs, propose new features, or submit pull requests to improve existing code. We are open to suggestions and collaborations to make this dashboard even more useful and interesting.
 
+Thank you for visiting this repository and for your interest in the video game dashboard project. We hope it will be a useful and interesting experience for all video game and data analysis enthusiasts.
 
-## Download
+## Job Opportunities
+Please feel free to reach me if you are a recruiter or a company interested in discussing potential hiring opportunities, I would be happy to hear from you. You can contact me through:
 
-You can [download](https://github.com/amitmerchant1990/electron-markdownify/releases/tag/v1.2.0) the latest installable version of Markdownify for Windows, macOS and Linux.
-
-## Emailware
-
-Markdownify is an [emailware](https://en.wiktionary.org/wiki/emailware). Meaning, if you liked using this app or it has helped you in any way, I'd like you send me an email at <bullredeyes@gmail.com> about anything you'd want to say about this software. I'd really appreciate it!
-
-## Credits
-
-This software uses the following open source packages:
-
-- [Electron](http://electron.atom.io/)
-- [Node.js](https://nodejs.org/)
-- [Marked - a markdown parser](https://github.com/chjj/marked)
-- [showdown](http://showdownjs.github.io/showdown/)
-- [CodeMirror](http://codemirror.net/)
-- Emojis are taken from [here](https://github.com/arvida/emoji-cheat-sheet.com)
-- [highlight.js](https://highlightjs.org/)
-
-## Related
-
-[markdownify-web](https://github.com/amitmerchant1990/markdownify-web) - Web version of Markdownify
-
-## Support
-
-<a href="https://www.buymeacoffee.com/5Zn8Xh3l9" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
-
-<p>Or</p> 
-
-<a href="https://www.patreon.com/amitmerchant">
-	<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
-</a>
-
-## You may also like...
-
-- [Pomolectron](https://github.com/amitmerchant1990/pomolectron) - A pomodoro app
-- [Correo](https://github.com/amitmerchant1990/correo) - A menubar/taskbar Gmail App for Windows and macOS
-
-## License
-
-MIT
-
----
-
-> [amitmerchant.com](https://www.amitmerchant.com) &nbsp;&middot;&nbsp;
-> GitHub [@amitmerchant1990](https://github.com/amitmerchant1990) &nbsp;&middot;&nbsp;
-> Twitter [@amit_merchant](https://twitter.com/amit_merchant)
-
+- Email: [di3go.opr3a@gmail.com](mailto:tuoindirizzoemail@example.com)
+- LinkedIn: [Diego Oprea](https://www.linkedin.com/in/diego-oprea/)
+- Instagram: [Diego Oprea](https://www.instagram.com/di3go.opr3a/)
+- GitHub: [@Di3go-Opr3a](https://github.com/Di3go-Opr3a)
