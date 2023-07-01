@@ -16,4 +16,4 @@ If vulnerabilities or security issues are identified in the project, the develop
 
 If you have questions or concerns about project security, or if you would like to report a security issue privately, you can contact the developers at [developer email address]. We will do our best to answer your questions and resolve security issues as best we can.
 
-Thank you for your interest in contributing to project security. We appreciate your help in protecting users and sensitive data.s
+Thank you for your interest in contributing to project security. We appreciate your help in protecting users and sensitive data.
